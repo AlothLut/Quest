@@ -5,33 +5,41 @@
         <title></title>
     </head>
     <body>
-        <?php
+<?php
 
-        $settings = require_once 'settings.php';
-
-        function config($optionName,$defaultValue='') {
-
-        global $settings;
-
-        foreach ($settings as $key=>$value) {
-            if ($key == $optionName) {
-                return $value;
-        }
-        if (is_array($value)) {
-            foreach ($value as $k=>$v) {
-                if ($key.'.'.$k == $optionName) {
-                    return $v;
-                }
-            }
-        }
+function config($optionName, $defaultValue = '', $arr = [])
+{
+    $settings = require_once 'settings.php';
+    if ($arr == []) {
+        $arr = $settings;
     }
-    return $defaultValue;
+    if ($defaultValue !=='') {
+        return $defaultValue;
+    }
+
+    foreach ($arr as $key => $value) {
+        if (is_array($value)) {
+            $arr = $value;
+            $optionName = substr($optionName, strpos($optionName, '.') + 1);
+
+            return config($optionName, $defaultValue = '', $arr);
+        } elseif ($key == $optionName) {
+            return $value;
+        }
+
+    }
+
 }
-        echo config("db.user").'<br />';
-        echo config("site_name").'<br />';
-        echo config("db.name").'<br />';
-        echo config("db.host", "localhost").'<br />';
-        echo config("db.host");
-        ?>
+
+
+    //echo config("site_name").'<br />' ;
+
+    echo config("db.db2.db3.user3").'<br />';
+
+    //echo config("db.name").'<br />';
+    //echo config("db.host", "localhost").'<br />';
+    //echo config("db.user").'<br />';
+    //echo config("db.host");
+?>
     </body>
 </html>
