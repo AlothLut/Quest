@@ -33,7 +33,7 @@ return [
 
 * Пример: 
 
-* echo config(“site_url”); // http://mysite.ru
+* echo config(“site_url”); // "mysite.ru"
 
 * echo config(“db.user”); // admin
 
